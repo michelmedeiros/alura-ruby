@@ -1,8 +1,8 @@
 def boas_vindas 
     puts "Hello World"
     puts "Qual é o seu nome?"
-    nome = gets
-    puts "Começaremos o jogo para você, " + nome
+    nome = gets.strip
+    puts "Começaremos o jogo para você, #{nome}" 
     puts "\n\n\n"
 end
 
@@ -16,12 +16,14 @@ end
 def limite_de_tentativas
     puts "Escolhido! Que tal adivinhar nosso número secreto?"
     puts "Escolha quantas tentativas deseja ter?"
-    chute = gets
+    chute = gets.strip
 end
 
-def pede_um_numero(tentativa, limiteTentativa)
-    puts "Tentativa " + tentativa.to_s + " de " + limiteTentativa.to_s
-    chute = gets
+def pede_um_numero(tentativa, limiteTentativa, ultimos_escolhidos)
+    puts "\n\n\n"
+    puts "Tentativa #{tentativa} de #{limiteTentativa}"
+    puts "Números já escolhidos #{ultimos_escolhidos}"
+    chute = gets.strip
     puts "\n\n\n"
     puts "Será que acertou? Seu chute foi... " + chute
     chute.to_i
@@ -31,23 +33,28 @@ def verifica_se_acertou(chute, tentativa, numero_secreto)
     acertou = numero_secreto == chute
     maior = chute > numero_secreto
     if acertou 
-        puts "Parabéns, você acertou na tentativa: "  + tentativa.to_s
+        puts "Parabéns, você acertou na tentativa: #{tentativa}"
         return true
     end 
     puts "Errou!"
     if maior
-        puts "Seu número é maior que o valor esperado..."
+        puts "Seu chute #{chute} é maior que o valor esperado..."
     else
-        puts "Seu número é menor que o valor esperado..."
+        puts "Seu chute #{chute} é menor que o valor esperado..."
     end
     false
 end
 
 def adivinhe_o_numero(limiteTentativa, numero_secreto)
+    
+    ultimos_escolhidos = []
+
     for tentativa in 1..limiteTentativa.to_i
-        chute = pede_um_numero(tentativa, limiteTentativa)
+        chute = pede_um_numero(tentativa, limiteTentativa, ultimos_escolhidos)
+        ultimos_escolhidos << chute
         break if verifica_se_acertou(chute, tentativa, numero_secreto)
-    end    
+    end
+
 end
 
 boas_vindas
